@@ -1,0 +1,87 @@
+# Golden Rules for AI Agents
+
+These rules match AGENTS.md and CLAUDE.md, formatted for Cursor's .mdc rule files.
+
+## 1. Golden rules (blocking)
+
+NEVER modify protected files: [CONFIGURE: paths, e.g., public/wasm/, public/libraries/, public/fonts/*.ttf].
+ALL interactive UI MUST have :focus-visible ring, keyboard operability, accessible name.
+Use design tokens for ALL colors, spacing, font sizes, z-index. Never hardcode.
+ALL animations MUST respect prefers-reduced-motion: reduce.
+Semantic HTML before ARIA (button, details/summary, fieldset/legend).
+Search for existing implementations before writing new code or adding dependencies.
+Keep PRs small. One feature or fix per PR.
+NEVER delegate source reading, analysis, or summarization to subagents. Primary model must perform all comprehension-critical reasoning.
+Give AI one function or component at a time. Never give AI a whole feature, module, or architectural decision.
+Safeguards over features. Prioritize quality infrastructure (tests, linting, a11y checks, CI) over new features. Build quality infrastructure first; features second.
+Treat AI-generated code as legacy from birth. Wrap in tests before modifying. Prefer refactoring to rewriting. Avoid "replace" framing.
+
+## 2. Protected files
+
+Do NOT edit:
+- [CONFIGURE: vendored binary paths]
+- [CONFIGURE: vendored font paths]
+- [CONFIGURE: other protected files]
+
+## 3. Environment tool
+
+When [CONFIGURE: tool, e.g., Pixi] is available with [CONFIGURE: config file, e.g., pixi.toml]:
+- ALL commands via [CONFIGURE: prefix, e.g., pixi run]
+- Never generate standalone scripts when a task exists
+- Read config file task descriptions before constructing commands
+- Suggest adding tasks rather than writing scripts
+ALL shell commands MUST run inside the environment tool. Never default to bash, zsh, or PowerShell directly.
+
+### Pixi task example
+
+```toml
+[tasks]
+lint = { cmd = "npm run lint", description = "Run ESLint on all source files" }
+axe = { cmd = "npx axe http://localhost:5173", description = "Run Axe accessibility scan", depends-on = ["serve"] }
+```
+
+Task descriptions help AI understand purpose. Use inputs/outputs for caching, depends-on for chaining.
+
+## 4. Commit convention
+
+Use conventional commits: feat:, fix:, docs:, test:, chore:.
+[CONFIGURE: authorship rule, e.g., "Write to .git/COMMIT_MSG, commit with git commit -F .git/COMMIT_MSG"]
+Base branch: [CONFIGURE: e.g., develop].
+Branch naming: feat/short-name, fix/short-name.
+PR descriptions MUST note AI usage. Use label [CONFIGURE: AI disclosure label] and describe which parts were AI-generated.
+Use commit trailers: Assisted-By: <tool> for AIL-1, Generated-By: <tool> for AIL-2.
+Development rhythm alternates: narrow (test, refactor, remove) then widen (build). AI targets narrowing phases.
+
+## 5. Accessibility requirements
+
+Target: [CONFIGURE: e.g., WCAG 2.2 Level AA].
+Touch targets: 44x44px minimum.
+Icon-only buttons: require aria-label.
+Respect: prefers-color-scheme, prefers-reduced-motion, prefers-contrast, forced-colors, prefers-reduced-transparency.
+
+## 6. Security boundaries
+
+NEVER weaken security headers (COOP/COEP/CORP, CSP).
+NEVER add unsafe-eval or unsafe-inline to CSP.
+NEVER lower audit severity level.
+NEVER commit secrets or credentials.
+
+## 7. Quality gates
+
+Before every PR:
+- [CONFIGURE: lint command]
+- [CONFIGURE: format command]
+- [CONFIGURE: unit test command]
+- [CONFIGURE: e2e test command]
+
+## 8. AI code quality gates
+
+Testing hierarchy (priority order): (1) HTML validation/VNU, (2) Accessibility/Axe, (3) E2E/Playwright, (4) Linting, (5) Only then: AI feature code.
+Tests MUST exist before AI generates implementation. Tests are the spec.
+Gold standard implementation must exist before AI replicates a pattern. AI replicates; humans design.
+Measure progress by code removed, not just code added.
+
+## 9. AI-appropriate vs AI-inappropriate tasks
+
+Appropriate: boilerplate, pattern replication (after gold standard), test implementations (from human specs), documentation drafts, quality infrastructure, formatting.
+Inappropriate: architecture decisions, first implementations, design decisions, alt text for AT products, 3D models/spatial reasoning, user-facing text requiring domain knowledge, tag provenance/verification.

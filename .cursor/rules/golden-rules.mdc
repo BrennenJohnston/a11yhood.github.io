@@ -1,0 +1,65 @@
+---
+description: Golden rules for AI agents working on a11yhood. Always apply these rules.
+alwaysApply: true
+---
+
+# Golden Rules for AI Agents — a11yhood
+
+**Project**: a11yhood — Accessible Product Reviews for Assistive Technology  
+**Stack**: React 19 · TypeScript · Vite · Tailwind CSS v4 · Radix UI · shadcn/ui · Supabase · TanStack Query · React Router DOM v7
+
+## 1. Golden rules (blocking)
+
+NEVER modify protected files: `LICENSE`, `CNAME`, `env.example`, `.env*`.
+ALL interactive UI MUST have `:focus-visible` ring, keyboard operability, accessible name.
+Use design tokens for ALL colors, spacing, font sizes, z-index. Never hardcode.
+ALL animations MUST respect `prefers-reduced-motion: reduce`.
+Semantic HTML before ARIA (`button`, `details/summary`, `fieldset/legend`).
+Search for existing implementations before writing new code or adding dependencies.
+Keep PRs small. One feature or fix per PR.
+NEVER delegate source reading, analysis, or summarization to subagents. Primary model must perform all comprehension-critical reasoning.
+
+## 2. Protected files
+
+Do NOT edit:
+- `LICENSE`
+- `CNAME`
+- `env.example`
+- `.env`, `.env.local`, `.env.production.local`, all `.env.*` files
+
+## 3. Environment tool
+
+This project uses **npm**. ALL commands via `npm run <task>`.
+Check `package.json` scripts before constructing commands.
+Suggest adding tasks to `package.json` rather than writing standalone scripts.
+Exceptions: file operations (mkdir, cp, mv), git commands, initial setup.
+
+## 4. Commit convention
+
+Use conventional commits: `feat:`, `fix:`, `docs:`, `test:`, `chore:`.
+Base branch: `main`.
+Branch naming: `feat/short-name`, `fix/short-name`.
+
+## 5. Accessibility requirements
+
+Target: **WCAG 2.2 Level AA**.
+Touch targets: 44×44px minimum.
+Icon-only buttons: require `aria-label`.
+Respect: `prefers-color-scheme`, `prefers-reduced-motion`, `prefers-contrast`, `forced-colors`, `prefers-reduced-transparency`.
+Do NOT strip `aria-*`, `role`, or `data-*` attributes from Radix UI/shadcn components.
+
+## 6. Security boundaries
+
+NEVER weaken security headers (COOP/COEP/CORP, CSP).
+NEVER add `unsafe-eval` or `unsafe-inline` to CSP.
+NEVER lower audit severity level.
+NEVER commit secrets or credentials.
+NEVER expose Supabase service-role key on the client (only `VITE_SUPABASE_ANON_KEY`).
+Always use `DOMPurify` when rendering user-generated HTML content.
+
+## 7. Quality gates
+
+Before every PR:
+- `npm run lint`
+- `npm run test:run`
+- `npm run build`
