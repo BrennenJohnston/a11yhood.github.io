@@ -1,0 +1,33 @@
+---
+description: Post-edit verification — tiered checklist to run after every AI-assisted code change
+alwaysApply: false
+---
+
+# Post-Edit Verification
+
+## Tier 1 — Every AI-assisted change
+
+Run `npm run lint`, `npm run test:run`, `npm run build`.
+Verify all imports resolve to actual files (no hallucinated imports).
+Run AI code bloat scan against the diff (see `bloat-scan.mdc`).
+Confirm `git diff --name-only` matches stated task scope.
+Confirm protected files (`LICENSE`, `CNAME`, `env.example`, `.env*`) are untouched.
+
+## Tier 2 — UI / accessibility changes (add to Tier 1)
+
+Tab through all new/changed interactive elements (keyboard-only walkthrough).
+Verify accessible names and live region announcements with a screen reader.
+Check all themes + `forced-colors: active` (high contrast mode).
+Enable `prefers-reduced-motion: reduce` and verify animations are suppressed.
+Verify touch targets >= 44x44px.
+Compare with existing components for visual consistency.
+
+## Tier 3 — New features / major changes (add to Tier 1 + 2)
+
+Verify OSS-first search was completed and documented (see `oss-first-search.mdc`).
+Verify reference project linked in REFERENCES.md or via `@see`.
+Verify non-trivial features have a feature flag.
+Verify rollback procedure exists.
+Draft CHANGELOG entry for user-facing changes.
+Verify WCAG criteria addressed if UI changed.
+Confirm no comprehension-critical tasks were delegated to subagents.

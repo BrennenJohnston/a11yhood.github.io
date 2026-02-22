@@ -1,0 +1,29 @@
+---
+description: Responsive UI guardrails — verify responsive and accessibility requirements when editing CSS or layout components
+alwaysApply: false
+---
+
+# Responsive UI Guardrails
+
+## Layout checks
+
+Verify usability below 768px (test at 375px and 768px widths).
+Touch targets: minimum 44x44px (use `--size-touch-target` token).
+Use `dvh`/`svh` with `vh` fallback for dynamic viewport height.
+Account for notches with `env(safe-area-inset-*)`.
+Compact layout for `@media (pointer: fine)`.
+Off-canvas drawers: keyboard dismissible, focus trapped (WAI-ARIA dialog pattern).
+Print media: hide non-essential UI with `@media print`.
+
+## System preference media queries (all required)
+
+- `prefers-color-scheme: dark` — Dark theme.
+- `prefers-reduced-motion: reduce` — Disable animations/transitions (WCAG 2.3.3).
+- `prefers-contrast: more` — Thicken borders, strengthen focus rings (WCAG 1.4.11).
+- `forced-colors: active` — Map to OS system colors (Windows High Contrast).
+- `prefers-reduced-transparency: reduce` — Replace semi-transparent with opaque values.
+
+## Design tokens
+
+Use CSS custom properties as design tokens. Never hardcode visual values.
+Required categories: spacing (`--space-*`), font sizes (`--font-size-*`), colors (`--color-*`), borders (`--border-*`), touch targets (`--size-touch-target`), focus (`--focus-ring-*`), z-index (`--z-*`).

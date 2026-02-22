@@ -1,0 +1,27 @@
+---
+description: AI code bloat scan — check diff for common AI-generated anti-patterns after code changes
+alwaysApply: false
+---
+
+# AI Code Bloat Scan
+
+After every AI-assisted code change, check the diff for these 10 patterns.
+
+## Blocking (fix before merge)
+
+1. **Narrating comments** — Delete comments restating the next line (`// Get`, `// Set`, `// Create`, `// Return`, `// Handle`, `// Update`, `// Check`).
+2. **Hallucinated imports** — Verify every import/require resolves to an actual file or installed package.
+3. **Duplicate implementation** — Search codebase for functions with similar names or purposes before adding new ones.
+4. **Phantom dependencies** — Before `npm install <pkg>`, verify the capability isn't in existing deps or Node/browser built-ins.
+
+## Warning (flag for human review)
+
+5. **Defensive over-abstraction** — Functions called once from one location; files with a single export under 10 lines.
+6. **Zombie error handling** — Empty catch blocks, catch with only `console.log` string literals, re-throws without context.
+7. **Scope creep** — `git diff --name-only` includes files outside stated task scope.
+8. **Corporate/emoji injection** — Emoji in code comments; "ensure", "utilize", "leverage", "facilitate" in code comments.
+9. **Test theater** — Only assertions are `toHaveBeenCalled`/`toHaveBeenCalledWith` without verifying output or state.
+
+## Info
+
+10. **Unnecessary type guards** — `typeof`/`instanceof` checks where types are guaranteed by the call chain.

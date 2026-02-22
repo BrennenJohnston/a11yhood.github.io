@@ -1,0 +1,34 @@
+---
+description: OSS-first search — search for existing open source before writing new code or adding dependencies
+alwaysApply: false
+---
+
+# OSS-First Search
+
+## When to activate
+
+Run when: new feature requested, new dependency considered, new utility module created, or adding functionality that likely exists in the ecosystem.
+Skip for: small config changes and straightforward bug fixes.
+
+## Search order (mandatory)
+
+1. Project's own modules — search codebase for existing implementation.
+2. Project's existing dependencies — check if current deps already provide the capability.
+3. Package registry (npm) — search for established packages.
+4. GitHub trending + relevant awesome-lists.
+5. Community recommendations (StackOverflow, Reddit).
+
+## Evaluation criteria
+
+- **License**: Compatible with project license.
+- **Maintenance**: Commit in last 6 months OR stable/complete.
+- **Bundle size**: Does not exceed bundle budget. Check bundlephobia.com.
+- **Accessibility**: If UI component, must ship accessible markup or be easily made accessible.
+- **Security**: No known high/critical vulnerabilities (`npm audit`).
+- **Fit**: Solves the problem without significant adaptation.
+
+## Document the outcome
+
+If adopted: record project name, URL, version, license, patterns borrowed, integration notes in REFERENCES.md or via `@see`.
+If rejected: document what was searched and why nothing fit.
+If no candidates found: document the search scope before proceeding with custom implementation.
